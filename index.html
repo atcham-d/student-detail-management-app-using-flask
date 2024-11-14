@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Student Management</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <a href="{{ url_for('add_student') }}">Add New Student</a>
+
+    <h2>Students List</h2>
+    <ul>
+        {% for student in students %}
+            <li>
+                {{ student.name }} ({{ student.age }} years old)
+                <a href="{{ url_for('update_student', id=student.id) }}">Update</a> |
+                <a href="{{ url_for('delete_student', id=student.id) }}" onclick="return confirm('Are you sure?')">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
